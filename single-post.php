@@ -50,19 +50,19 @@
                     $singlePost = $statement->fetch();
 
                     // koristite var_dump kada god treba da proverite sadrzaj neke promenjive
-                     //   echo '<pre>';
-                     //   var_dump($singlePost);
-                     //   echo '</pre>';
+                    //   echo '<pre>';
+                    //   var_dump($singlePost);
+                    //   echo '</pre>';
 
             ?>
 
-               <div class="blog-post">
-              <h2 class="blog-post-title"><a href="single-post.php?post_id="<?php echo($singlePost['id']) ?>><?php echo($singlePost['Title']) ?></a></h2>
+                <div class="blog-post">
+                <h2 class="blog-post-title"><a href="single-post.php?post_id="<?php echo($singlePost['id']) ?>><?php echo($singlePost['Title']) ?></a></h2>
 
-               <p class="blog-post-meta"><?php echo($singlePost['Created_at']) ?><?php echo($singlePost['Author']) ?></a></p>
+                <p class="blog-post-meta"><?php echo($singlePost['Created_at']) ?><?php echo($singlePost['Author']) ?></a></p>
 
-               <p><?php echo($singlePost['Body']) ?></p>
-               <hr>
+                <p><?php echo($singlePost['Body']) ?></p>
+                <hr>
                
            </div>
 
@@ -79,7 +79,20 @@
                     echo('post_id nije prosledjen kroz $_GET');
                 }
             ?>
-            <button onclick="myFunction()">Hide comments</button>
+
+
+        <form action="create-comment.php" method="POST">
+            <h5>add comment</h5>
+                name:<input type="text" id="name" name="name"/></br></br>
+                date:<input type="date" id="date"></br></br>
+                body:<textarea rows="5" col="50" id="bodyText" name="text"></textarea></br>
+            <input type="submit" id="addComment" value="Add comment"></br></br>
+            <input type="Hidden" name="post_id" value="<?php echo ($_GET['post_id']); ?>">
+        </form>
+
+
+
+            <button id="HideShow" onclick="myFunction()"><script type="text/javascript"></script>Hide comment</button>
 
 
             <div id="hide" class="comments">

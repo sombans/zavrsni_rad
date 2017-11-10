@@ -1,9 +1,13 @@
 function myFunction() {
-    var x = document.getElementById("hide");
-    if (x.style.display === "none") {
-        x.style.display = "block";
-    } else {
-        x.style.display = "none";
-    }
+  var comment = document.getElementById("hide");
+  var btn = document.getElementById("HideShow");
+  if (comment.style.display === "none") {
+      HideShow.innerHTML = 'Hide comments'
+      comment.style.display = "block";
+  } else {
+      HideShow.innerHTML = 'Show comments'
+      comment.style.display = "none";
+  }
 }
+
 
