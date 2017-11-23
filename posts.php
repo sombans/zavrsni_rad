@@ -3,7 +3,7 @@
     // obavezno ih ovde zamenite
     $servername = "127.0.0.1";
     $username = "root";
-    $password = "";
+    $password = "vivifi";
     $dbname = "blog";
 
     try {

@@ -2,7 +2,7 @@
     header("Location: single-post.php?Post_id={$_POST['Post_id']}");
         $servername = "127.0.0.1";
         $username = "root";
-        $password = "";
+        $password = "vivifi";
         $dbname = "blog";
     try {
         $connection = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);

@@ -2,7 +2,7 @@
     header("Location: posts.php?refresh");
         $servername = "127.0.0.1";
         $username = "root";
-        $password = "";
+        $password = "vivifi";
         $dbname = "blog";
     try {
         $connection = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
