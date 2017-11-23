@@ -1,14 +1,11 @@
 <?php
-    // ako su mysql username/password i ime baze na vasim racunarima drugaciji
-    // obavezno ih ovde zamenite
     $servername = "127.0.0.1";
     $username = "root";
-    $password = "vivify";
+    $password = "";
     $dbname = "blog";
 
     try {
         $connection = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-        // set the PDO error mode to exception
         $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
     catch(PDOException $e)
@@ -30,7 +27,7 @@
 </head>
 
 <body>
- <?php require('header.php') ?>
+    <?php require('header.php') ?>
 
 
 
@@ -40,10 +37,10 @@
 
         <div class="col-sm-8 blog-main">
             <?php
-                if (isset($_GET['post_id'])) {
+                if (isset($_GET['Post_id'])) {
 
                     
-                    $sql = "SELECT * FROM posts WHERE posts.id = {$_GET['post_id']};";
+                    $sql = "SELECT * FROM posts WHERE posts.id = {$_GET['Post_id']};";
                     $statement = $connection->prepare($sql);
                     $statement->execute();
                     $statement->setFetchMode(PDO::FETCH_ASSOC);
@@ -56,12 +53,16 @@
 
             ?>
 
-                <div class="blog-post">
-                <h2 class="blog-post-title"><a href="single-post.php?post_id="<?php echo($singlePost['id']) ?>><?php echo($singlePost['Title']) ?></a></h2>
+              <div class="blog-post">
+              <h2 class="blog-post-title"><a href="single-post.php?Post_id="<?php echo($singlePost['Id']) ?>><?php echo($singlePost['Title']) ?></a></h2>
 
-                <p class="blog-post-meta"><?php echo($singlePost['Created_at']) ?><?php echo($singlePost['Author']) ?></a></p>
+              <p class="blog-post-meta"><?php echo($singlePost['Created_at']) ?><?php echo($singlePost['Author']) ?></a></p>
 
-                <p><?php echo($singlePost['Body']) ?></p>
+              <p><?php echo($singlePost['Body']) ?></p>
+                  <form action="delit-post.php" method="post">
+                      <button class="btn-primary" onclick="return confirm('Do you really want to delete this post')" type="submit"  >Delete post</button><br>
+                      <input type="Hidden" name="Post_id" value="<?php echo($_GET['Post_id']);?>">
+                  </form>
                 <hr>
                
            </div>
@@ -79,15 +80,22 @@
                     echo('post_id nije prosledjen kroz $_GET');
                 }
             ?>
+          <?php if(isset($_GET['error'])){
+               echo "<div class=\"alert alert-danger\" >
+           <strong>ERROR</strong> Moraju se popuniti sva polja!
+            </div>";
+          };
+               ?> 
 
-
-        <form action="create-comment.php" method="POST">
+        <form class="form" action="create-comment.php" method="post" >
             <h5>add comment</h5>
-                name:<input type="text" id="name" name="name"/></br></br>
-                date:<input type="date" id="date"></br></br>
-                body:<textarea rows="5" col="50" id="bodyText" name="text"></textarea></br>
-            <input type="submit" id="addComment" value="Add comment"></br></br>
-            <input type="Hidden" name="post_id" value="<?php echo ($_GET['post_id']); ?>">
+            
+                name:<input type="text" class="form-control" id="name" name="name"/></br></br>
+                date:<input type="date" class="form-control" id="date"></br></br>
+                body:<textarea type="text" class="form-control" rows="5" col="50" id="bodyText" name="text"></textarea></br>
+
+            <input type="submit" id="addComment" value="Add comment" ></br></br>
+            <input type="Hidden" name="Post_id" value="<?php echo ($_GET['Post_id']); ?>">
         </form>
 
 
@@ -95,14 +103,14 @@
             <button id="HideShow" onclick="myFunction()"><script type="text/javascript"></script>Hide comment</button>
 
 
-            <div id="hide" class="comments">
+    <div id="hide" class="comments">
 
                 
                 <h3>comments</h3>
 
                 <?php 
 
-          $sql = "SELECT *FROM comments ORDER BY comments.post_id";
+          $sql = "SELECT *FROM comments WHERE comments.Post_id = {$_GET['Post_id']} ORDER BY comments.Id DESC LIMIT 10";
           $statement = $connection->prepare($sql);
           $statement->execute();
           $statement->setFetchMode(PDO::FETCH_ASSOC);
@@ -110,23 +118,26 @@
           ?>
 
            <?php
-              foreach ($comments as $post) {
+              foreach ($comments as $postComm) {
           ?>
+      
+          <ul >
+                <li><?php echo($postComm['Text']) ?></li>
 
-            <ul >
-               <li><?php echo($post['Text']) ?></li>
-
-               <li>autor:<?php echo($post['Author']) ?></li>
-
-               <hr>
-             </ul>  
-        
-
+                <li>autor:<?php echo($postComm['Author']) ?></li>
+        <form action="delit.php" method="post">
+                <button class="del_btn" type="submit"  >Delete comment</button><br>
+                <input type="Hidden" name="Id" value="<?php echo $postComm['Id']; ?>">
+                <input type="Hidden" name="Post_id" value="<?php echo$postComm['Post_id'];?>">
+        </form>
+                <hr>
+          </ul>
+      
            <?php
                }
           ?>
 
-            </div>
+    </div>
 
         </div><!-- /.blog-main -->
 <?php 
@@ -136,7 +147,8 @@
 
 </main><!-- /.container -->
 
- <?php include('footer.php'); ?>
- <script src="zavrsni.js"></script>
+<?php include('footer.php'); ?>
+<script src="zavrsni.js"></script>
+
 </body>
 </html>

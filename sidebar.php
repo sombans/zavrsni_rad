@@ -2,7 +2,7 @@
 
     $servername = "127.0.0.1";
     $username = "root";
-    $password = "vivify";
+    $password = "";
     $dbname = "blog";
 
     try {
@@ -40,7 +40,7 @@
               foreach ($posts as $post) {
           ?>
 
-              <p><a href="single-post.php?post_id=<?php echo($post['id'])?>"><?php echo($post['Title'])?></a></p>
+              <p><a href="single-post.php?Post_id=<?php echo($post['Id'])?>"><?php echo($post['Title'])?></a></p>
                 <?php
               }
           ?>

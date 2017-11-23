@@ -3,7 +3,7 @@
     // obavezno ih ovde zamenite
     $servername = "127.0.0.1";
     $username = "root";
-    $password = "vivify";
+    $password = "";
     $dbname = "blog";
 
     try {
@@ -52,10 +52,10 @@
               foreach ($posts as $post) {
           ?>
 
-               <div class="blog-post">
-              <h2 class="blog-post-title"><a href="single-post.php?post_id=<?php echo($post['id']) ?>"><?php echo($post['Title']) ?></a></h2>
+            <div class="blog-post">
+                <h2 class="blog-post-title"><a href="single-post.php?Post_id=<?php echo($post['Id']) ?>"><?php echo($post['Title']) ?></a></h2>
 
-               <p class="blog-post-meta"><?php echo($post['Created_at']) ?><?php echo($post['Author']) ?></a></p>
+               <p class="blog-post-meta"><?php echo($post['Created_at']) ?>  <?php echo($post['Author']) ?></a></p>
 
                <p><?php echo($post['Body']) ?></p>
                <hr>

@@ -8,6 +8,5 @@ function myFunction() {
       HideShow.innerHTML = 'Show comments'
       comment.style.display = "none";
   }
-}
-
+};
 
